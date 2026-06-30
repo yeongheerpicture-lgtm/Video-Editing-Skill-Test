@@ -108,6 +108,23 @@
 
     .intro .cn { margin-top: 8px; font-weight: 700; }
 
+    .section-heading {
+      margin: 4px 0 12px;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1.1;
+    }
+
+    .section-heading .cn {
+      display: block;
+      margin-top: 3px;
+      color: var(--wine);
+      font-size: 18px;
+      font-weight: 900;
+    }
+
     .scale {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -389,11 +406,13 @@
       display: inline-flex;
       width: fit-content;
       border-radius: 999px;
-      padding: 7px 10px;
-      font-size: 12px;
+      padding: 10px 16px;
+      font-size: 17px;
+      line-height: 1.15;
       font-weight: 900;
       color: var(--white);
       background: var(--wine);
+      box-shadow: 0 10px 22px rgba(146, 48, 51, 0.16);
     }
 
     .badge.good { background: var(--cyan); }
@@ -465,6 +484,7 @@
       .scale-card { padding: 12px; grid-template-columns: 48px 1fr; }
       button { min-height: 54px; }
       .question { padding: 16px; }
+      .badge { font-size: 15px; padding: 9px 13px; }
     }
   </style>
 </head>
@@ -477,6 +497,10 @@
       </div>
     </header>
 
+    <section class="section-heading" aria-label="Rating guide title">
+      <h2>Rating Guide<span class="cn">评分说明</span></h2>
+    </section>
+
     <section class="scale" aria-label="Rating guide">
       <div class="scale-card"><strong class="scale-number">1</strong><p class="scale-copy">I do not know this yet.<span class="cn">还不会，需要从零开始。</span></p></div>
       <div class="scale-card"><strong class="scale-number">2</strong><p class="scale-copy">I have tried it, but I am not familiar.<span class="cn">听过或试过，但还不熟。</span></p></div>
@@ -487,8 +511,8 @@
 
     <nav class="toolbar" aria-label="Assessment navigation">
       <div class="tabs">
-        <button class="active" type="button" data-tab="basic">Basic Class<span class="label-cn">基础班</span></button>
-        <button type="button" data-tab="advanced">Advanced Class<span class="label-cn">进阶班</span></button>
+        <button class="active" type="button" data-tab="basic">Basic Class<span class="label-cn">基础班 技能测试</span></button>
+        <button type="button" data-tab="advanced">Advanced Class<span class="label-cn">进阶班 技能测试</span></button>
       </div>
       <button class="secondary" type="button" id="resetBtn">Reset Answers<span class="label-cn">重新填写</span></button>
     </nav>
@@ -515,7 +539,7 @@
           <h2>Overview<span class="label-cn">总览</span></h2>
           <div class="summary-row"><span>Basic Class Average<span class="small-cn">基础班平均分</span></span><strong id="basicAverage" class="summary-value">0.0</strong></div>
           <div class="summary-row"><span>Advanced Class Average<span class="small-cn">进阶班平均分</span></span><strong id="advancedAverage" class="summary-value">0.0</strong></div>
-          <div class="advice" id="overallAdvice"><span class="empty">Complete both sections to see the overall suggestion.<span class="small-cn">完成两个部分后可参考整体建议。</span></span></div>
+          <div class="advice" id="overallAdvice"></div>
         </article>
       </aside>
     </div>
@@ -631,7 +655,7 @@
       const basic = getStats("basic");
       const advanced = getStats("advanced");
       if (basic.answered < basic.total || advanced.answered < advanced.total) {
-        return '<span class="empty">Complete both sections to see the overall suggestion.<span class="small-cn">完成两个部分后可参考整体建议。</span></span>';
+        return "";
       }
       if (basic.average < 4) {
         return '<span class="badge need">Priority: Basic Class / 优先建议：基础班</span><p>Your basic editing skills can still be strengthened. Build a stable foundation first before moving into advanced skills.<span class="small-cn">基础技能还可以再加强。先把基础班内容练稳，再进入进阶班会更顺。</span></p>';
